@@ -24,6 +24,9 @@ AzureCloudTableLogger logger = new AzureCloudTableLogger(storageName, accessKey,
 logger.Debug("Hello World");
 ```
 
+Check out [wiki](https://github.com/rockacola/AzureCloudLogger/wiki) for detailed documentations.
+
+
 
 Inspect Logs
 -----

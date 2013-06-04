@@ -1,3 +1,7 @@
+Version 1.0.2 (2013-06-04)
+-------------
+* Flatten namespace of Enumerators and Interfaces to its core ClickView.AzureCloudLogger namespace
+
 Version 1.0.1 (2013-06-04)
 -------------
 + Add a new AzureCloudTableLogger constructor that takes in string data type for Log Level.
