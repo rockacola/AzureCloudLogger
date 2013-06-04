@@ -1,0 +1,8 @@
+Version 1.0.1 (2013-06-04)
+-------------
++ Add a new AzureCloudTableLogger constructor that takes in string data type for Log Level.
+* Provided release is now available in .NET Framework 4.0 as default (from .NET 4.5).
+
+Version 1.0.0
+-------------
++ Initial release of AzureCloudLogger
