@@ -1,6 +1,13 @@
+Version 1.0.3 (2013-06-05)
+-------------
++ Logs machine name of application
++ Add IgnoreException read-only public property to allow express of exception (still in draft).
++ Add IsConnected read-only public property.
+* Suppress all exceptions from AzureCloudTableLogger.
+
 Version 1.0.2 (2013-06-04)
 -------------
-* Flatten namespace of Enumerators and Interfaces to its core ClickView.AzureCloudLogger namespace
+* Flatten namespace of Enumerators and Interfaces to its core ClickView.AzureCloudLogger namespace.
 
 Version 1.0.1 (2013-06-04)
 -------------
@@ -9,4 +16,4 @@ Version 1.0.1 (2013-06-04)
 
 Version 1.0.0
 -------------
-+ Initial release of AzureCloudLogger
++ Initial release of AzureCloudLogger.

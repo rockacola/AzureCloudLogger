@@ -38,7 +38,6 @@ Limitations
 -----
 There are some limitations of current version of AzureCloudLogger you should be aware of. These are the known issues that are bound to be addressed in future versions:
 
-* Does not verify correctness of input configruation details.
 * There is no default logging level, hence it is compulsory to always provide a logging level upon its construction.
 
 
