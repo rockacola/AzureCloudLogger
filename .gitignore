@@ -1,0 +1,8 @@
+[Bb]in/
+[Oo]bj/
+[Ww]orking/
+TestResults/
+AppPackages/
+packages/
+*.suo
+*.user
