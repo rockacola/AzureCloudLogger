@@ -1,3 +1,7 @@
+Version 1.0.4 (2013-06-07)
+-------------
++ Add a new AzureCloudTableLogger constructor that does not require input for Log Level and default to 'WARN' level.
+
 Version 1.0.3 (2013-06-05)
 -------------
 + Logs machine name of application

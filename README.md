@@ -42,16 +42,7 @@ Check out [wiki](https://github.com/rockacola/AzureCloudLogger/wiki) for detaile
 
 Inspect Logs
 -----
-One of the easiest ways to inspect your logs is by using [Neudesic's Azure Storage Explorer](http://azurestorageexplorer.codeplex.com/). Recommended using its latest stable release, version 4.0.0.9.
-
-
-
-Limitations
------
-There are some limitations of current version of AzureCloudLogger you should be aware of. These are the known issues that are bound to be addressed in future versions:
-
-* There is no default logging level, hence it is compulsory to always provide a logging level upon its construction.
-
+One of the easiest ways to inspect your logs is by using [Neudesic's Azure Storage Explorer](http://azurestorageexplorer.codeplex.com/). Recommended using its latest beta release, [version 5 preview 1](http://azurestorageexplorer.codeplex.com/releases/view/89713).
 
 
 
