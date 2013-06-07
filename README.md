@@ -10,6 +10,18 @@ This library requires [WindowsAzure.Storage](https://github.com/WindowsAzure/azu
 
 
 
+Installation
+-----
+Installation is easy through [NuGet](https://nuget.org/packages/ClickView.AzureCloudLogger). Search for *"azurecloudlogger"* in NuGet manager, or install through Package Manager Console:
+
+```
+PM> Install-Package ClickView.AzureCloudLogger 
+```
+
+Alternatively, compiled binaries of all versions are available in [Release](https://github.com/rockacola/AzureCloudLogger/tree/master/Releases) directory.
+
+
+
 Usages
 -----
 Simpliest form of its usage.
