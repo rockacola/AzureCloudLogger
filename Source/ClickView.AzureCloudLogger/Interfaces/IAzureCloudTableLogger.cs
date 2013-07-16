@@ -17,42 +17,12 @@ namespace ClickView.AzureCloudLogger
         bool IsErrorEnabled { get; }
         bool IsFatalEnabled { get; }
 
-        /* Log a message object */
-        /*
-        void Debug(object message);
-        void Info(object message);
-        void Warn(object message);
-        void Error(object message);
-        void Fatal(object message);
-        */
-
-        /* Log a message object and exception */
-        void Debug(object message, Exception t = null);
-        void Info(object message, Exception t = null);
-        void Warn(object message, Exception t = null);
-        void Error(object message, Exception t = null);
-        void Fatal(object message, Exception t = null);
-
-        /* Log a message string using the System.String.Format syntax */
-        /*
-        void DebugFormat(string format, params object[] args);
-        void InfoFormat(string format, params object[] args);
-        void WarnFormat(string format, params object[] args);
-        void ErrorFormat(string format, params object[] args);
-        void FatalFormat(string format, params object[] args);
-        */
-
-        /* Log a message string using the System.String.Format syntax */
-        /*
-        void DebugFormat(IFormatProvider provider, string format, params object[] args);
-        void InfoFormat(IFormatProvider provider, string format, params object[] args);
-        void WarnFormat(IFormatProvider provider, string format, params object[] args);
-        void ErrorFormat(IFormatProvider provider, string format, params object[] args);
-        void FatalFormat(IFormatProvider provider, string format, params object[] args);
-        */
-
-        //TEST METHODS
-        //List<LogMessage> ListErrors();
+        /* Log a message object with optional exception and sender */
+        void Debug(string message, Exception t = null, string sender = null);
+        void Info(string message, Exception t = null, string sender = null);
+        void Warn(string message, Exception t = null, string sender = null);
+        void Error(string message, Exception t = null, string sender = null);
+        void Fatal(string message, Exception t = null, string sender = null);
 
     }
 }

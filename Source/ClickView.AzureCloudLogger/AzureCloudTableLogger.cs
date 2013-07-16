@@ -35,7 +35,7 @@ namespace ClickView.AzureCloudLogger
             }
         }
 
-        private const bool _ignoreException = true;
+        private bool _ignoreException { get; set; }
         public bool IgnoreException
         {
             get
@@ -51,14 +51,13 @@ namespace ClickView.AzureCloudLogger
             {
                 //-- Arrange
                 bool output = false;
+
                 //-- Act
-                if (Level != null)
-                {
-                    if (Level == LogLevel.ALL)
-                        output = true;
-                    else if (Level == LogLevel.DEBUG)
-                        output = true;
-                }
+                if (Level == LogLevel.ALL)
+                    output = true;
+                else if (Level == LogLevel.DEBUG)
+                    output = true;
+
                 //-- Act
                 return output;
             }
@@ -69,16 +68,15 @@ namespace ClickView.AzureCloudLogger
             {
                 //-- Arrange
                 bool output = false;
+
                 //-- Act
-                if (Level != null)
-                {
-                    if (Level == LogLevel.ALL)
-                        output = true;
-                    else if (Level == LogLevel.INFO)
-                        output = true;
-                    else if (Level == LogLevel.DEBUG)
-                        output = true;
-                }
+                if (Level == LogLevel.ALL)
+                    output = true;
+                else if (Level == LogLevel.INFO)
+                    output = true;
+                else if (Level == LogLevel.DEBUG)
+                    output = true;
+
                 //-- Act
                 return output;
             }
@@ -89,18 +87,17 @@ namespace ClickView.AzureCloudLogger
             {
                 //-- Arrange
                 bool output = false;
+
                 //-- Act
-                if (Level != null)
-                {
-                    if (Level == LogLevel.ALL)
-                        output = true;
-                    else if (Level == LogLevel.WARN)
-                        output = true;
-                    else if (Level == LogLevel.INFO)
-                        output = true;
-                    else if (Level == LogLevel.DEBUG)
-                        output = true;
-                }
+                if (Level == LogLevel.ALL)
+                    output = true;
+                else if (Level == LogLevel.WARN)
+                    output = true;
+                else if (Level == LogLevel.INFO)
+                    output = true;
+                else if (Level == LogLevel.DEBUG)
+                    output = true;
+
                 //-- Act
                 return output;
             }
@@ -111,20 +108,19 @@ namespace ClickView.AzureCloudLogger
             {
                 //-- Arrange
                 bool output = false;
+
                 //-- Act
-                if (Level != null)
-                {
-                    if (Level == LogLevel.ALL)
-                        output = true;
-                    else if (Level == LogLevel.ERROR)
-                        output = true;
-                    else if (Level == LogLevel.WARN)
-                        output = true;
-                    else if (Level == LogLevel.INFO)
-                        output = true;
-                    else if (Level == LogLevel.DEBUG)
-                        output = true;
-                }
+                if (Level == LogLevel.ALL)
+                    output = true;
+                else if (Level == LogLevel.ERROR)
+                    output = true;
+                else if (Level == LogLevel.WARN)
+                    output = true;
+                else if (Level == LogLevel.INFO)
+                    output = true;
+                else if (Level == LogLevel.DEBUG)
+                    output = true;
+
                 //-- Act
                 return output;
             }
@@ -135,46 +131,38 @@ namespace ClickView.AzureCloudLogger
             {
                 //-- Arrange
                 bool output = false;
+
                 //-- Act
-                if (Level != null)
-                {
-                    if (Level == LogLevel.ALL)
-                        output = true;
-                    else if (Level == LogLevel.FETAL)
-                        output = true;
-                    else if (Level == LogLevel.ERROR)
-                        output = true;
-                    else if (Level == LogLevel.WARN)
-                        output = true;
-                    else if (Level == LogLevel.INFO)
-                        output = true;
-                    else if (Level == LogLevel.DEBUG)
-                        output = true;
-                }
+                if (Level == LogLevel.ALL)
+                    output = true;
+                else if (Level == LogLevel.FETAL)
+                    output = true;
+                else if (Level == LogLevel.ERROR)
+                    output = true;
+                else if (Level == LogLevel.WARN)
+                    output = true;
+                else if (Level == LogLevel.INFO)
+                    output = true;
+                else if (Level == LogLevel.DEBUG)
+                    output = true;
+
                 //-- Act
                 return output;
             }
         }
 
         //-- Constructors
-        public AzureCloudTableLogger(string storageName, string storageAccessKey, string tableRepositoryName)
-        {
-            //-- Arrange
-            LogLevel defaultLevel = LogLevel.WARN;
 
-            //-- Act
-            Initialize(storageName, storageAccessKey, tableRepositoryName, defaultLevel);
-            Connect();
-        }
-
-        public AzureCloudTableLogger(string storageName, string storageAccessKey, string tableRepositoryName, string levelLabel)
+        public AzureCloudTableLogger(string storageName, string storageAccessKey, string tableRepositoryName, string levelLabel = null, bool ignoreException = true)
         {
+            //-- Assign IgnoreException
+            _ignoreException = ignoreException;
+
             //-- Parse Level Enum
-            levelLabel = levelLabel.ToUpper();
             LogLevel level = LogLevel.WARN;
             try
             {
-                level = (LogLevel)Enum.Parse(typeof(LogLevel), levelLabel);
+                level = (LogLevel)Enum.Parse(typeof(LogLevel), levelLabel.ToUpper());
             }
             catch (Exception ex)
             {
@@ -184,13 +172,6 @@ namespace ClickView.AzureCloudLogger
                 }
             }
 
-            //-- Act
-            Initialize(storageName, storageAccessKey, tableRepositoryName, level);
-            Connect();
-        }
-
-        public AzureCloudTableLogger(string storageName, string storageAccessKey, string tableRepositoryName, LogLevel level)
-        {
             //-- Act
             Initialize(storageName, storageAccessKey, tableRepositoryName, level);
             Connect();
@@ -236,115 +217,130 @@ namespace ClickView.AzureCloudLogger
 
         //-- Public Methods
 
-        public void Debug(object message, Exception t = null)
+        public void Debug(string message, Exception t = null, string sender = null)
         {
             //-- Explore Machine Identity
             var machineName = FetchMachineName();
 
             //-- Explore Sender Identity
-            var sender = "Unknown";
-            try
+            if (string.IsNullOrWhiteSpace(sender))
             {
-                StackTrace stackTrace = new StackTrace();
-                MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
-                sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
-            }
-            catch (Exception ex)
-            {
-                if (!_ignoreException)
-                    throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                try
+                {
+                    StackTrace stackTrace = new StackTrace();
+                    MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
+                    sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
+                }
+                catch (Exception ex)
+                {
+                    sender = "Unknown";
+                    if (!_ignoreException)
+                        throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                }
             }
 
             //-- Reroute Method
             Log(LogLevel.DEBUG, machineName, sender, message, t);
         }
 
-        public void Info(object message, Exception t = null)
+        public void Info(string message, Exception t = null, string sender = null)
         {
             //-- Explore Machine Identity
             var machineName = FetchMachineName();
 
             //-- Explore Sender Identity
-            var sender = "Unknown";
-            try
+            if (string.IsNullOrWhiteSpace(sender))
             {
-                StackTrace stackTrace = new StackTrace();
-                MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
-                sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
-            }
-            catch (Exception ex)
-            {
-                if (!_ignoreException)
-                    throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                try
+                {
+                    StackTrace stackTrace = new StackTrace();
+                    MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
+                    sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
+                }
+                catch (Exception ex)
+                {
+                    sender = "Unknown";
+                    if (!_ignoreException)
+                        throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                }
             }
 
             //-- Reroute Method
             Log(LogLevel.INFO, machineName, sender, message, t);
         }
 
-        public void Warn(object message, Exception t = null)
+        public void Warn(string message, Exception t = null, string sender = null)
         {
             //-- Explore Machine Identity
             var machineName = FetchMachineName();
 
             //-- Explore Sender Identity
-            var sender = "Unknown";
-            try
+            if (string.IsNullOrWhiteSpace(sender))
             {
-                StackTrace stackTrace = new StackTrace();
-                MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
-                sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
-            }
-            catch (Exception ex)
-            {
-                if (!_ignoreException)
-                    throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                try
+                {
+                    StackTrace stackTrace = new StackTrace();
+                    MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
+                    sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
+                }
+                catch (Exception ex)
+                {
+                    sender = "Unknown";
+                    if (!_ignoreException)
+                        throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                }
             }
 
             //-- Reroute Method
             Log(LogLevel.WARN, machineName, sender, message, t);
         }
 
-        public void Error(object message, Exception t = null)
+        public void Error(string message, Exception t = null, string sender = null)
         {
             //-- Explore Machine Identity
             var machineName = FetchMachineName();
 
             //-- Explore Sender Identity
-            var sender = "Unknown";
-            try
+            if (string.IsNullOrWhiteSpace(sender))
             {
-                StackTrace stackTrace = new StackTrace();
-                MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
-                sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
-            }
-            catch (Exception ex)
-            {
-                if (!_ignoreException)
-                    throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                try
+                {
+                    StackTrace stackTrace = new StackTrace();
+                    MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
+                    sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
+                }
+                catch (Exception ex)
+                {
+                    sender = "Unknown";
+                    if (!_ignoreException)
+                        throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                }
             }
 
             //-- Reroute Method
             Log(LogLevel.ERROR, machineName, sender, message, t);
         }
 
-        public void Fatal(object message, Exception t = null)
+        public void Fatal(string message, Exception t = null, string sender = null)
         {
             //-- Explore Machine Identity
             var machineName = FetchMachineName();
 
             //-- Explore Sender Identity
-            var sender = "Unknown";
-            try
+            if (string.IsNullOrWhiteSpace(sender))
             {
-                StackTrace stackTrace = new StackTrace();
-                MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
-                sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
-            }
-            catch (Exception ex)
-            {
-                if (!_ignoreException)
-                    throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                try
+                {
+                    StackTrace stackTrace = new StackTrace();
+                    MethodBase methodBase = stackTrace.GetFrame(1).GetMethod();
+                    sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
+                }
+                catch (Exception ex)
+                {
+                    sender = "Unknown";
+                    if (!_ignoreException)
+                        throw new Exception("Failed to identify Sender through StackTrace.", ex);
+                }
             }
 
             //-- Reroute Method
@@ -471,24 +467,5 @@ namespace ClickView.AzureCloudLogger
             return output;
         }
 
-        //TODO: This method is to break into a seperate class call something like 'LogAnalyser'
-        /*
-        public List<LogMessage> ListErrors()
-        {
-            //-- Arrange
-            List<LogMessage> logs = new List<LogMessage>();
-
-            //-- Act
-            var query = new TableQuery<LogMessage>()
-                .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "ERROR"));
-            foreach (var log in LogTable.ExecuteQuery(query))
-            {
-                logs.Add(log);
-            }
-            
-            //-- Output
-            return logs;
-        }
-        */
     }
 }

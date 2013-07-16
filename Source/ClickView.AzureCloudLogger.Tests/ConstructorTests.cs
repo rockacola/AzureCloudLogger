@@ -49,6 +49,7 @@ namespace ClickView.AzureCloudLogger.Tests
             Assert.AreEqual(true, logger.IsFatalEnabled);
         }
 
+        /***travo20130614: Constructor deprecated
         [TestMethod]
         public void AzureCloudTableLogger_Constructor_Sunny_3()
         {
@@ -70,7 +71,9 @@ namespace ClickView.AzureCloudLogger.Tests
             Assert.AreEqual(true, logger.IsErrorEnabled);
             Assert.AreEqual(true, logger.IsFatalEnabled);
         }
+        */
 
+        /***travo20130614: Constructor deprecated
         [TestMethod]
         public void AzureCloudTableLogger_Constructor_BadStorageName_1()
         {
@@ -87,7 +90,9 @@ namespace ClickView.AzureCloudLogger.Tests
             Assert.IsNotNull(logger);
             Assert.IsFalse(logger.IsConnected);
         }
+        */
 
+        /***travo20130614: Constructor deprecated
         [TestMethod]
         public void AzureCloudTableLogger_Constructor_BadStorageName_2()
         {
@@ -104,6 +109,7 @@ namespace ClickView.AzureCloudLogger.Tests
             Assert.IsNotNull(logger);
             Assert.IsFalse(logger.IsConnected);
         }
+        */
 
     }
 }

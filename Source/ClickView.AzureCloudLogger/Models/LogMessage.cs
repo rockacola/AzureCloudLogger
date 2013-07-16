@@ -12,7 +12,7 @@ namespace ClickView.AzureCloudLogger.Models
     public class LogMessage : TableEntity
     {
         private const string MessagePartionKey = "LogEntry";
-        private const string DateFormat = "yyyy-MM-dd HH:mm:ss";
+        private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
         private const string RowKeyFormat = "{0} - {1}";
 
         public string MachineName           { get; set; }
