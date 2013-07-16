@@ -1,3 +1,12 @@
+Version 1.0.5 (2013-07-16)
+-------------
++ Add a new log unit tests
+* RowKey now contains milliseconds of timestamp
+* Update AzureCloudTableLogger constructor to be only 1 constructor (with optional arguments)
+* AzureCloudTableLogger constructor now able to define IgnoreException
+* AzureCloudTableLogger now takes in sender as optional input parameter
+* Log methods now takes 'string' datatype for 'message' (instead of object)
+
 Version 1.0.4 (2013-06-07)
 -------------
 + Add a new AzureCloudTableLogger constructor that does not require input for Log Level and default to 'WARN' level.

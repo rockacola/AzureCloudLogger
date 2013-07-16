@@ -30,10 +30,9 @@ Simpliest form of its usage.
 string storageName = "AZURE_STORAGE_NAME";
 string accessKey = "AZURE_STORAGE_ACCESS_KEY";
 string tableName = "AZURE_TABLE_STORAGE_NAME";
-string logLevel = "DEBUG";
-AzureCloudTableLogger logger = new AzureCloudTableLogger(storageName, accessKey, tableName, logLevel);
+AzureCloudTableLogger logger = new AzureCloudTableLogger(storageName, accessKey, tableName);
 
-logger.Debug("Hello World");
+logger.Warn("Hello World");
 ```
 
 Check out [wiki](https://github.com/rockacola/AzureCloudLogger/wiki) for detailed documentations.
