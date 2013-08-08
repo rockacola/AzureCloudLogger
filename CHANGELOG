@@ -1,3 +1,9 @@
+Version 1.0.6 (2013-08-08)
+-------------
++ Logs version of AzureCloudLogger
+* LogMessage is now an ITableEntity object with dynamic property
+* AzureCloudTableLogger now takes in parameters are additonal log columns
+
 Version 1.0.5 (2013-07-16)
 -------------
 + Add a new log unit tests
