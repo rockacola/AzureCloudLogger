@@ -61,8 +61,10 @@
   <ItemGroup>
     <Compile Include="AzureCloudTableLogger.cs" />
     <Compile Include="Enumerators\LogLevel.cs" />
+    <Compile Include="Enumerators\ReservedLogProperty.cs" />
     <Compile Include="Interfaces\IAzureCloudTableLogger.cs" />
     <Compile Include="Models\LogMessage.cs" />
+    <Compile Include="Models\ElasticTableEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

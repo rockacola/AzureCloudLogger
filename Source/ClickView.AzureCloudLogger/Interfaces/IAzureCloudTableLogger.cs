@@ -18,11 +18,11 @@ namespace ClickView.AzureCloudLogger
         bool IsFatalEnabled { get; }
 
         /* Log a message object with optional exception and sender */
-        void Debug(string message, Exception t = null, string sender = null);
-        void Info(string message, Exception t = null, string sender = null);
-        void Warn(string message, Exception t = null, string sender = null);
-        void Error(string message, Exception t = null, string sender = null);
-        void Fatal(string message, Exception t = null, string sender = null);
+        void Debug(string message, Exception t = null, string sender = null, Dictionary<string, object> parameters = null);
+        void Info(string message, Exception t = null, string sender = null, Dictionary<string, object> parameters = null);
+        void Warn(string message, Exception t = null, string sender = null, Dictionary<string, object> parameters = null);
+        void Error(string message, Exception t = null, string sender = null, Dictionary<string, object> parameters = null);
+        void Fatal(string message, Exception t = null, string sender = null, Dictionary<string, object> parameters = null);
 
     }
 }

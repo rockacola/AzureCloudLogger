@@ -5,21 +5,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ClickView.AzureCloudLogger.Enumerators;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace ClickView.AzureCloudLogger.Models
 {
-    public class LogMessage : TableEntity
+    public class LogMessage : ElasticTableEntity
     {
-        private const string MessagePartionKey = "LogEntry";
-        private const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
-        private const string RowKeyFormat = "{0} - {1}";
-
-        public string MachineName           { get; set; }
-        public string Sender                { get; set; }
-        public string Message               { get; set; }
-        public string ExceptionMessage      { get; set; }
-        public string ExceptionTraceLog     { get; set; }
+        private const string DateFormat     = "yyyy-MM-dd HH:mm:ss.fff";
+        private const string RowKeyFormat   = "{0} - {1}";
 
         public LogMessage()
         {
@@ -28,19 +22,32 @@ namespace ClickView.AzureCloudLogger.Models
         public LogMessage(LogLevel level, string machineName, string sender, object message, Exception exception = null)
         {
             //-- Base Properties
-            PartitionKey = level.ToString("G");
-            var dateLabel = DateTime.Now.ToUniversalTime().ToString(DateFormat);
-            RowKey = string.Format("{0} - {1}", dateLabel, Guid.NewGuid().ToString());
-
+            PartitionKey    = level.ToString("G");
+            var dateLabel   = DateTime.UtcNow.ToString(DateFormat);
+            RowKey          = string.Format("{0} - {1}", dateLabel, Guid.NewGuid().ToString());
+            
             //-- Act
-            MachineName = machineName;
-            Sender = sender;
-            Message = message.ToString();
+            Version version = Assembly.GetAssembly(this.GetType()).GetName().Version;
+            this[ReservedLogProperty.LoggerVersion.ToString()]  = version.ToString();
+            this[ReservedLogProperty.MachineName.ToString()]    = machineName;
+            this[ReservedLogProperty.Sender.ToString()]         = sender;
+            this[ReservedLogProperty.Message.ToString()]        = message.ToString();
             if (exception != null)
             {
-                ExceptionMessage = exception.Message;
-                ExceptionTraceLog = BuildTraceLog(exception);
+                this[ReservedLogProperty.ExceptionMessage.ToString()]   = exception.Message;
+                this[ReservedLogProperty.ExceptionTraceLog.ToString()]  = BuildTraceLog(exception);
             }
+        }
+
+        public void AddProperties(Dictionary<string, object> parameters)
+        {
+            //-- Validate
+            if (parameters == null)
+                return;
+
+            //-- Act
+            foreach (KeyValuePair<string, object> entry in parameters)
+                this[entry.Key] = entry.Value;
         }
 
         private string BuildTraceLog(Exception exception)
