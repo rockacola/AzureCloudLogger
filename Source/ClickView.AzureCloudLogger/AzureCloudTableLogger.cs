@@ -122,7 +122,7 @@ namespace ClickView.AzureCloudLogger
                 //-- Act
                 if (Level == LogLevel.ALL)
                     output = true;
-                else if (Level == LogLevel.FETAL)
+                else if (Level == LogLevel.FATAL)
                     output = true;
                 else if (Level == LogLevel.ERROR)
                     output = true;
@@ -275,7 +275,7 @@ namespace ClickView.AzureCloudLogger
                 sender = FetchSenderName();
 
             //-- Reroute Method
-            Log(LogLevel.FETAL, machineName, sender, message, t, parameters);
+            Log(LogLevel.FATAL, machineName, sender, message, t, parameters);
         }
 
         //-- Private Methods
@@ -325,6 +325,7 @@ namespace ClickView.AzureCloudLogger
         private string FetchSenderName()
         {
             //-- Arrange
+            StackTrace stackTrace = new StackTrace();
             string sender = "Unknown";
             const int frameNumber = 2;
 
@@ -343,7 +344,6 @@ namespace ClickView.AzureCloudLogger
             //-- Act
             try
             {
-                StackTrace stackTrace = new StackTrace();
                 MethodBase methodBase = stackTrace.GetFrame(frameNumber).GetMethod();
                 sender = string.Format("{0}.{1}", methodBase.ReflectedType.FullName, methodBase.Name);
             }
@@ -422,7 +422,7 @@ namespace ClickView.AzureCloudLogger
                 else if (logLevel == LogLevel.WARN)
                     output = true;
             }
-            else if (Level == LogLevel.FETAL)
+            else if (Level == LogLevel.FATAL)
             {
                 if (logLevel == LogLevel.DEBUG)
                     output = true;

@@ -13,7 +13,7 @@ namespace ClickView.AzureCloudLogger
         INFO,
         WARN,
         ERROR,
-        FETAL,
+        FATAL,
         NONE
     }
 }

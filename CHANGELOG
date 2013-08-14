@@ -1,3 +1,7 @@
+Version 1.0.8 (2013-08-14)
+-------------
+* Spell correction on LogLevel enumerator.
+
 Version 1.0.6 (2013-08-08)
 -------------
 + Logs version of AzureCloudLogger
